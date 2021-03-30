@@ -18,8 +18,8 @@ $(function() {
                 // window.console && console.log(response, pagination);
 
                 var dataHtml = '';
-
                 $.each(response, function (index, item) {
+                    // console.log(index)
                     $.ajax({
                         url: `https://jsonplaceholder.typicode.com/photos/${index+1}`,
                         type: 'GET',
@@ -31,13 +31,13 @@ $(function() {
                                     style="
                                         background-image: url(${data.thumbnailUrl})">
 
-                                </div>`;
+                                </div>
+                            `;
+                            $('#photos').append(dataHtml);
                         },
                         async: false
                     });
                 });
-
-                $('#photos').html(dataHtml);
             }
         };
 
