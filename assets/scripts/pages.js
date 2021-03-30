@@ -4,7 +4,7 @@ $(function() {
         var sources = function () {
             var result = [];
 
-            for (var i = 1; i < 196; i++) {
+            for (var i = 1; i <= 5000; i++) {
                 result.push(i);
             }
 
@@ -13,18 +13,31 @@ $(function() {
 
         var options = {
             dataSource: sources,
+            pageSize: 100,
             callback: function (response, pagination) {
-                window.console && console.log(response, pagination);
+                // window.console && console.log(response, pagination);
 
-                var dataHtml = '<ul>';
+                var dataHtml = '';
 
                 $.each(response, function (index, item) {
-                    dataHtml += '<li>' + item + '</li>';
+                    $.ajax({
+                        url: `https://jsonplaceholder.typicode.com/photos/${index+1}`,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {              
+                            // console.log(data)
+                            dataHtml += `
+                                <div class="photo" 
+                                    style="
+                                        background-image: url(${data.thumbnailUrl})">
+
+                                </div>`;
+                        },
+                        async: false
+                    });
                 });
 
-                dataHtml += '</ul>';
-
-                container.prev().html(dataHtml);
+                $('#photos').html(dataHtml);
             }
         };
 
